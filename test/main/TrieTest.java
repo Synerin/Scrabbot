@@ -37,6 +37,7 @@ public class TrieTest {
         assertFalse(trie.checkWord("hel"));
         assertFalse(trie.checkWord("hell"));
         assertTrue(trie.checkWord("hello"));
+        assertFalse(trie.checkWord("helloo"));
     }
 
 }
