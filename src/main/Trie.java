@@ -1,4 +1,4 @@
-package sample;
+package main;
 
 public class Trie {
     private TrieNode root = new TrieNode();
