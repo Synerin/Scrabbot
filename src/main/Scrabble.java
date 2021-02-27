@@ -42,6 +42,7 @@ public class Scrabble {
         setDoubleLetterScores(12);
         setDoubleLetterScores(14);
 
+        // Starting Spot
         board[7][7] = '*';
     }
 
