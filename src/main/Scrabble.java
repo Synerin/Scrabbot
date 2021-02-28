@@ -19,7 +19,20 @@ public class Scrabble {
         }
     }
 
-    public void calculateLetterScore(int[] position) {
+    public void playWord(String word, int[][] positions) {
+        // TODO Add validation for words
+        int col;
+        int row;
+
+        for(int i = 0; i < positions.length; i++) {
+            col = positions[i][0];
+            row = positions[i][1];
+
+            board[col][row] = word.charAt(i);
+        }
+    }
+
+    public int calculateLetterScore(int[] position) {
         int score = 0;
 
         int col = position[0];
@@ -46,6 +59,8 @@ public class Scrabble {
                 score += LETTER_VALUES[board[j][col] - 'A'];
             }
         }
+
+        return score;
     }
 
     public void setBoard() {

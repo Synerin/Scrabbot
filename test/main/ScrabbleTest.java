@@ -9,10 +9,11 @@ import static org.junit.Assert.*;
 
 public class ScrabbleTest {
 
-    Scrabble scrabble = new Scrabble();
+    Scrabble scrabble;
 
     @Test
     public void dictTest() throws FileNotFoundException {
+        scrabble = new Scrabble();
         scrabble.processDictionary(new File("src/main/dictionary.txt"));
         boolean apple = scrabble.allWords.checkWord("Apple");
         boolean apfel = scrabble.allWords.checkWord("Apfel");
@@ -23,6 +24,7 @@ public class ScrabbleTest {
 
     @Test
     public void boardTest() {
+        scrabble = new Scrabble();
         scrabble.setBoard();
         assertTrue(scrabble.board[0][0] == 'T');
         assertTrue(scrabble.board[0][1] == ' ');
@@ -32,4 +34,18 @@ public class ScrabbleTest {
         assertTrue(scrabble.board[3][0] == 'd');
     }
 
+    @Test
+    public void wordTest() {
+        scrabble = new Scrabble();
+        scrabble.setBoard();
+        String testWord = "HELLO";
+        int[][] testPositions = new int[][] {{7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9}};
+
+        assertFalse(scrabble.board[7][7] == 'L');
+
+        scrabble.playWord(testWord, testPositions);
+
+        assertTrue(scrabble.board[7][7] == 'L');
+        assertTrue(scrabble.board[6][7] == ' ');
+    }
 }
