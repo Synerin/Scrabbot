@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Scrabble {
     public static final int BOARD_SIZE = 15;
+    public static final int[] LETTER_VALUES = new int[] {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
     public char[][] board = new char[BOARD_SIZE][BOARD_SIZE];
     Trie allWords = new Trie();
 
@@ -15,6 +16,35 @@ public class Scrabble {
         while(scanner.hasNextLine()) {
             String word = scanner.nextLine();
             allWords.insert(word);
+        }
+    }
+
+    public void calculateLetterScore(int[] position) {
+        int score = 0;
+
+        int col = position[0];
+        int row = position[1];
+
+        int leftRange = col;
+        int rightRange = col;
+        int aboveRange = row;
+        int belowRange = row;
+
+        while(leftRange > 0 && board[row][leftRange - 1] != ' ') leftRange--;
+        while(rightRange < BOARD_SIZE && board[row][leftRange + 1] != ' ') rightRange++;
+        while(aboveRange > 0 && board[aboveRange - 1][col] != ' ') aboveRange--;
+        while(belowRange < BOARD_SIZE && board[aboveRange + 1][col] != ' ') belowRange++;
+
+        if(leftRange != rightRange) {
+            for(int i = leftRange; i <= rightRange; i++) {
+                score += LETTER_VALUES[board[row][i] - 'A'];
+            }
+        }
+
+        if(aboveRange != belowRange) {
+            for(int j = aboveRange; j <= belowRange; j++) {
+                score += LETTER_VALUES[board[j][col] - 'A'];
+            }
         }
     }
 
