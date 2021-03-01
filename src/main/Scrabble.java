@@ -32,6 +32,16 @@ public class Scrabble {
         }
     }
 
+    public int calculateWordScore(int[][] positions) {
+        int score = 0;
+
+        for(int[] p : positions) {
+            score += calculateLetterScore(p);
+        }
+
+        return score;
+    }
+
     public int calculateLetterScore(int[] position) {
         int score = 0;
 
@@ -44,9 +54,9 @@ public class Scrabble {
         int belowRange = row;
 
         while(leftRange > 0 && board[row][leftRange - 1] != ' ') leftRange--;
-        while(rightRange < BOARD_SIZE && board[row][leftRange + 1] != ' ') rightRange++;
+        while(rightRange < BOARD_SIZE - 1 && board[row][rightRange + 1] != ' ') rightRange++;
         while(aboveRange > 0 && board[aboveRange - 1][col] != ' ') aboveRange--;
-        while(belowRange < BOARD_SIZE && board[aboveRange + 1][col] != ' ') belowRange++;
+        while(belowRange < BOARD_SIZE - 1 && board[belowRange + 1][col] != ' ') belowRange++;
 
         if(leftRange != rightRange) {
             for(int i = leftRange; i <= rightRange; i++) {

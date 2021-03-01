@@ -47,5 +47,8 @@ public class ScrabbleTest {
 
         assertTrue(scrabble.board[7][7] == 'L');
         assertTrue(scrabble.board[6][7] == ' ');
+
+        assertEquals(1, scrabble.calculateLetterScore(new int[]{7,7}));
+        assertEquals(8, scrabble.calculateWordScore(testPositions));
     }
 }
