@@ -32,11 +32,22 @@ public class Scrabble {
         }
     }
 
-    public int calculateWordScore(int[][] positions) {
+    public int calculateWordScore(String word) {
         int score = 0;
 
+        for(char c : word.toCharArray()) {
+            score += LETTER_VALUES[c - 'A'];
+        }
+
+        return score;
+    }
+
+    public int calculateWordScore(int[][] positions) {
+        int rawScore = calculateWordScore(getWord(positions));
+        int score = rawScore;
+
         for(int[] p : positions) {
-            score += calculateLetterScore(p);
+            score += rawScore - calculateLetterScore(p);
         }
 
         return score;
@@ -45,8 +56,8 @@ public class Scrabble {
     public int calculateLetterScore(int[] position) {
         int score = 0;
 
-        int col = position[0];
-        int row = position[1];
+        int row = position[0];
+        int col = position[1];
 
         int leftRange = col;
         int rightRange = col;
@@ -58,19 +69,32 @@ public class Scrabble {
         while(aboveRange > 0 && board[aboveRange - 1][col] != ' ') aboveRange--;
         while(belowRange < BOARD_SIZE - 1 && board[belowRange + 1][col] != ' ') belowRange++;
 
-        if(leftRange != rightRange) {
+        if(leftRange < rightRange) { // Word was played horizontally
             for(int i = leftRange; i <= rightRange; i++) {
                 score += LETTER_VALUES[board[row][i] - 'A'];
             }
         }
 
-        if(aboveRange != belowRange) {
+        if(aboveRange < belowRange) { // Word was played vertically
             for(int j = aboveRange; j <= belowRange; j++) {
                 score += LETTER_VALUES[board[j][col] - 'A'];
             }
         }
 
         return score;
+    }
+
+    public String getWord(int[][] positions) {
+        if(positions.length == 1) return "" + positions[0][0];
+
+        StringBuilder word = new StringBuilder();
+
+        for(int i = 0; i < positions.length; i++) {
+            int[] pos = positions[i];
+            word.append(board[pos[0]][pos[1]]);
+        }
+
+        return word.toString();
     }
 
     public void setBoard() {
