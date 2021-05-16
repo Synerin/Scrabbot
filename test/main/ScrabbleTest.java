@@ -26,10 +26,10 @@ public class ScrabbleTest {
     public void boardTest() {
         scrabble = new Scrabble();
         scrabble.setBoard();
-        assertTrue(scrabble.board[0][0] == 'T');
+        assertTrue(scrabble.board[0][0] == '3');
         assertTrue(scrabble.board[0][1] == ' ');
         assertTrue(scrabble.board[7][7] == '*');
-        assertTrue(scrabble.board[1][1] == 'D');
+        assertTrue(scrabble.board[1][1] == '2');
         assertTrue(scrabble.board[5][1] == 't');
         assertTrue(scrabble.board[3][0] == 'd');
     }
@@ -50,7 +50,7 @@ public class ScrabbleTest {
     }
 
     @Test
-    public void scoreTest() {
+    public void getWordTest() {
         scrabble = new Scrabble();
         scrabble.setBoard();
         String testWord = "HELLO";
@@ -58,7 +58,34 @@ public class ScrabbleTest {
 
         scrabble.playWord(testWord, testPositions);
 
-        assertEquals(1, scrabble.calculateLetterScore(new int[]{7,7}));
+        assertEquals(testWord, scrabble.getWord(testPositions));
+    }
+
+    @Test
+    public void scoreTestHorizontal() {
+        scrabble = new Scrabble();
+        scrabble.setBoard();
+        String testWord = "HELLO";
+        int[][] testPositions = new int[][] {{7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9}};
+
+        scrabble.playWord(testWord, testPositions);
+
+        assertEquals(8, scrabble.calculateWordScore(testWord));
+        assertEquals(8, scrabble.calculateLetterScore(new int[]{7,7}));
+        assertEquals(8, scrabble.calculateWordScore(testPositions));
+    }
+
+    @Test
+    public void scoreTestVertical() {
+        scrabble = new Scrabble();
+        scrabble.setBoard();
+        String testWord = "HELLO";
+        int[][] testPositions = new int[][] {{5, 7}, {6, 7}, {7, 7}, {8, 7}, {9, 7}};
+
+        scrabble.playWord(testWord, testPositions);
+
+        assertEquals(8, scrabble.calculateWordScore(testWord));
+        assertEquals(8, scrabble.calculateLetterScore(new int[]{7,7}));
         assertEquals(8, scrabble.calculateWordScore(testPositions));
     }
 }
