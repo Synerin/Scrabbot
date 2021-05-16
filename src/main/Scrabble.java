@@ -47,6 +47,7 @@ public class Scrabble {
         int score = rawScore;
 
         for(int[] p : positions) {
+            System.out.println(p[0] + " " + p[1] + ": " + board[p[0]][p[1]]);
             score += rawScore - calculateLetterScore(p);
         }
 
@@ -69,14 +70,18 @@ public class Scrabble {
         while(aboveRange > 0 && board[aboveRange - 1][col] != ' ') aboveRange--;
         while(belowRange < BOARD_SIZE - 1 && board[belowRange + 1][col] != ' ') belowRange++;
 
-        if(leftRange < rightRange) { // Word was played horizontally
+        System.out.println("LeftRange: " + leftRange + " RightRange: " + rightRange);
+        System.out.println("AboveRange: " + aboveRange + " BelowRange: " + belowRange);
+
+        if(leftRange < rightRange) { // Horizontal word may exist
             for(int i = leftRange; i <= rightRange; i++) {
                 score += LETTER_VALUES[board[row][i] - 'A'];
             }
         }
 
-        if(aboveRange < belowRange) { // Word was played vertically
+        if(aboveRange < belowRange) { // Vertical word may exist
             for(int j = aboveRange; j <= belowRange; j++) {
+                //System.out.println(j + " " + col + ": " + board[j][col]);
                 score += LETTER_VALUES[board[j][col] - 'A'];
             }
         }
@@ -136,7 +141,7 @@ public class Scrabble {
         int row = 0, col = 0;
 
         for(; col < BOARD_SIZE; row += 7, col += 7) {
-            board[row][col] = 'T';
+            board[row][col] = '3';
         }
     }
 
@@ -145,7 +150,7 @@ public class Scrabble {
 
         for(; row < BOARD_SIZE; row++) {
             for(; col < BOARD_SIZE; col++) {
-                if(row == col) board[row][col] = 'D';
+                if(row == col) board[row][col] = '2';
             }
         }
     }
