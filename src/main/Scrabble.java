@@ -65,13 +65,10 @@ public class Scrabble {
         int aboveRange = row;
         int belowRange = row;
 
-        while(leftRange > 0 && board[row][leftRange - 1] != ' ') leftRange--;
-        while(rightRange < BOARD_SIZE - 1 && board[row][rightRange + 1] != ' ') rightRange++;
-        while(aboveRange > 0 && board[aboveRange - 1][col] != ' ') aboveRange--;
-        while(belowRange < BOARD_SIZE - 1 && board[belowRange + 1][col] != ' ') belowRange++;
-
-        System.out.println("LeftRange: " + leftRange + " RightRange: " + rightRange);
-        System.out.println("AboveRange: " + aboveRange + " BelowRange: " + belowRange);
+        while(leftRange > 0 && Character.isUpperCase(board[row][leftRange - 1])) leftRange--;
+        while(rightRange < BOARD_SIZE - 1 && Character.isUpperCase(board[row][rightRange + 1])) rightRange++;
+        while(aboveRange > 0 && Character.isUpperCase(board[aboveRange - 1][col])) aboveRange--;
+        while(belowRange < BOARD_SIZE - 1 && Character.isUpperCase(board[belowRange + 1][col])) belowRange++;
 
         if(leftRange < rightRange) { // Horizontal word may exist
             for(int i = leftRange; i <= rightRange; i++) {
@@ -81,7 +78,6 @@ public class Scrabble {
 
         if(aboveRange < belowRange) { // Vertical word may exist
             for(int j = aboveRange; j <= belowRange; j++) {
-                //System.out.println(j + " " + col + ": " + board[j][col]);
                 score += LETTER_VALUES[board[j][col] - 'A'];
             }
         }
