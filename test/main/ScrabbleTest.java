@@ -26,27 +26,27 @@ public class ScrabbleTest {
     public void boardTest() {
         scrabble = new Scrabble();
         scrabble.setBoard();
-        assertTrue(scrabble.board[0][0] == '3');
-        assertTrue(scrabble.board[0][1] == ' ');
-        assertTrue(scrabble.board[7][7] == '*');
-        assertTrue(scrabble.board[1][1] == '2');
-        assertTrue(scrabble.board[5][1] == 't');
-        assertTrue(scrabble.board[3][0] == 'd');
+        assertEquals('3', scrabble.board[0][0]);
+        assertEquals(' ', scrabble.board[0][1]);
+        assertEquals('*', scrabble.board[7][7]);
+        assertEquals('2', scrabble.board[1][1]);
+        assertEquals('t', scrabble.board[5][1]);
+        assertEquals('d', scrabble.board[3][0]);
     }
 
     @Test
-    public void wordTest() {
+    public void wordTest() throws FileNotFoundException {
         scrabble = new Scrabble();
         scrabble.setBoard();
+        scrabble.processDictionary(new File("src/main/dictionary.txt"));
         String testWord = "HELLO";
         int[][] testPositions = new int[][] {{7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9}};
 
-        assertFalse(scrabble.board[7][7] == 'L');
+        assertNotEquals('L', scrabble.board[7][7]);
 
-        scrabble.playWord(testWord, testPositions);
-
-        assertTrue(scrabble.board[7][7] == 'L');
-        assertTrue(scrabble.board[6][7] == ' ');
+        assertTrue(scrabble.playWord(testWord, testPositions));
+        assertEquals('L', scrabble.board[7][7]);
+        assertEquals(' ', scrabble.board[6][7]);
     }
 
     @Test
@@ -87,5 +87,23 @@ public class ScrabbleTest {
         assertEquals(8, scrabble.calculateWordScore(testWord));
         assertEquals(8, scrabble.calculateLetterScore(new int[]{7,7}));
         assertEquals(8, scrabble.calculateWordScore(testPositions));
+    }
+
+    @Test
+    public void scoreTestTwoWords() {
+        scrabble = new Scrabble();
+        scrabble.setBoard();
+
+        String firstWord = "HELLO";
+        int[][] firstPositions = new int[][] {{7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9}};
+        scrabble.playWord(firstWord, firstPositions);
+
+        String secondWord = "WRLD"; // Skips the 'O'
+        int[][] secondPositions = new int[][] {{6, 9}, {8, 9}, {9, 9}, {10, 9}};
+        scrabble.playWord(secondWord, secondPositions);
+
+        assertEquals(8, scrabble.calculateWordScore(secondWord));
+        assertEquals(17, scrabble.calculateLetterScore(new int[]{7,9}));
+        assertEquals(8, scrabble.calculateWordScore(secondPositions));
     }
 }
