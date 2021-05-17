@@ -19,8 +19,12 @@ public class Scrabble {
         }
     }
 
-    public void playWord(String word, int[][] positions) {
-        // TODO Add validation for words
+    public boolean playWord(String word, int[][] positions) {
+        if(!allWords.checkWord(word)) {
+            System.out.println("\"" + word + "\" is an invalid word.");
+            return false;
+        }
+
         int col;
         int row;
 
@@ -30,6 +34,8 @@ public class Scrabble {
 
             board[col][row] = word.charAt(i);
         }
+
+        return true;
     }
 
     public int calculateWordScore(String word) {
@@ -45,20 +51,28 @@ public class Scrabble {
     public int calculateWordScore(int[][] positions) {
         int rawScore = calculateWordScore(getWord(positions));
         int score = rawScore;
+        int multiplier = findWordMultiplier(positions);
 
         for(int[] p : positions) {
             System.out.println(p[0] + " " + p[1] + ": " + board[p[0]][p[1]]);
             score += rawScore - calculateLetterScore(p);
         }
 
-        return score;
+        return score * multiplier;
     }
 
     public int calculateLetterScore(int[] position) {
         int score = 0;
+        int multiplier = 1;
 
         int row = position[0];
         int col = position[1];
+
+        if(board[row][col] == 't') {
+            multiplier = 3;
+        } else if(board[row][col] == 'd') {
+            multiplier = 2;
+        }
 
         int leftRange = col;
         int rightRange = col;
@@ -72,13 +86,21 @@ public class Scrabble {
 
         if(leftRange < rightRange) { // Horizontal word may exist
             for(int i = leftRange; i <= rightRange; i++) {
-                score += LETTER_VALUES[board[row][i] - 'A'];
+                if(i == col) {
+                    score += LETTER_VALUES[board[row][col] - 'A'] * multiplier;
+                } else {
+                    score += LETTER_VALUES[board[row][i] - 'A'];
+                }
             }
         }
 
         if(aboveRange < belowRange) { // Vertical word may exist
             for(int j = aboveRange; j <= belowRange; j++) {
-                score += LETTER_VALUES[board[j][col] - 'A'];
+                if(j == row) {
+                    score += LETTER_VALUES[board[row][col] - 'A'] * multiplier;
+                } else {
+                    score += LETTER_VALUES[board[j][col] - 'A'];
+                }
             }
         }
 
@@ -96,6 +118,22 @@ public class Scrabble {
         }
 
         return word.toString();
+    }
+
+    public int findWordMultiplier(int[][] positions) {
+        int modifier = 1;
+
+        for(int[] p : positions) {
+            char space = board[p[0]][p[1]];
+
+            if(space == '3') {
+                modifier *= 3;
+            } else if(space == '2') {
+                modifier *= 2;
+            }
+        }
+
+        return modifier;
     }
 
     public void setBoard() {
