@@ -1,5 +1,6 @@
 package main;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -11,10 +12,15 @@ public class ScrabbleTest {
 
     Scrabble scrabble;
 
-    @Test
-    public void dictTest() throws FileNotFoundException {
+    @Before
+    public void setup() throws FileNotFoundException {
         scrabble = new Scrabble();
         scrabble.processDictionary(new File("src/main/dictionary.txt"));
+        scrabble.setBoard();
+    }
+
+    @Test
+    public void dictTest() throws FileNotFoundException {
         boolean apple = scrabble.allWords.checkWord("Apple");
         boolean apfel = scrabble.allWords.checkWord("Apfel");
 
@@ -24,7 +30,6 @@ public class ScrabbleTest {
 
     @Test
     public void boardTest() {
-        scrabble = new Scrabble();
         scrabble.setBoard();
         assertEquals('3', scrabble.board[0][0]);
         assertEquals(' ', scrabble.board[0][1]);
@@ -36,9 +41,7 @@ public class ScrabbleTest {
 
     @Test
     public void wordTest() throws FileNotFoundException {
-        scrabble = new Scrabble();
         scrabble.setBoard();
-        scrabble.processDictionary(new File("src/main/dictionary.txt"));
         String testWord = "HELLO";
         int[][] testPositions = new int[][] {{7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9}};
 
@@ -51,7 +54,6 @@ public class ScrabbleTest {
 
     @Test
     public void getWordTest() {
-        scrabble = new Scrabble();
         scrabble.setBoard();
         String testWord = "HELLO";
         int[][] testPositions = new int[][] {{7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9}};
@@ -63,7 +65,6 @@ public class ScrabbleTest {
 
     @Test
     public void scoreTestHorizontal() {
-        scrabble = new Scrabble();
         scrabble.setBoard();
         String testWord = "HELLO";
         int[][] testPositions = new int[][] {{7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9}};
@@ -77,7 +78,6 @@ public class ScrabbleTest {
 
     @Test
     public void scoreTestVertical() {
-        scrabble = new Scrabble();
         scrabble.setBoard();
         String testWord = "HELLO";
         int[][] testPositions = new int[][] {{5, 7}, {6, 7}, {7, 7}, {8, 7}, {9, 7}};
@@ -91,7 +91,6 @@ public class ScrabbleTest {
 
     @Test
     public void scoreTestTwoWords() {
-        scrabble = new Scrabble();
         scrabble.setBoard();
 
         String firstWord = "HELLO";
