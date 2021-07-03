@@ -137,12 +137,6 @@ public class Scrabble {
     }
 
     public void setBoard() {
-        // Default Spaces
-        for(int i = 0; i < BOARD_SIZE; i++) {
-            for(int j = 0; j < BOARD_SIZE; j++) {
-                board[i][j] = ' ';
-            }
-        }
 
         // Triple Words
         setTripleWordScores();
@@ -172,10 +166,12 @@ public class Scrabble {
     }
 
     public void setTripleWordScores() {
-        int row = 0, col = 0;
+        int row, col;
 
-        for(; col < BOARD_SIZE; row += 7, col += 7) {
-            board[row][col] = '3';
+        for(row = 0; row < BOARD_SIZE; row += 7) {
+            for(col = 0; col < BOARD_SIZE; col += 7) {
+                board[row][col] = '3';
+            }
         }
     }
 
