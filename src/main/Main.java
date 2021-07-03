@@ -9,9 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class Main extends Application {
 
@@ -31,14 +34,53 @@ public class Main extends Application {
         for(int r = 0; r < 15; r++) {
             for(int c = 0; c < 15; c++) {
                 TextField space = new TextField();
-                space.setText(String.valueOf(scrabble.board[r][c]));
+                char tile = scrabble.board[r][c];
+                String tileStr = null;
+                String color;
+
+                switch(tile) {
+                    case('3'):
+                        color = "#AB2424";
+                        tileStr = "TW";
+                        break;
+                    case('2'):
+                        color = "#3857C6";
+                        tileStr = "DW";
+                        break;
+                    case('t'):
+                        color = "#FFAFAF";
+                        tileStr = "TL";
+                        break;
+                    case('d'):
+                        color = "#BEE0FE";
+                        tileStr = "DL";
+                        break;
+                    case('*'):
+                        color = "#3857C6";
+                        tileStr = "*";
+                        break;
+                    default:
+                        color = "#E4DEDA";
+                        tileStr = "";
+                }
+
+                space.setText(tileStr);
+                space.setStyle("-fx-border-color: black;" +
+                        "-fx-background-color: " + color + ";" +
+                        "-fx-text-fill: white;" +
+                        "-fx-alignment: center;" +
+                        "-fx-font-size: 16px;" +
+                        "-fx-font-weight: bold;");
+                space.setPrefSize(50, 50);
+
+
                 scrabbleBoard.add(space, c, r);
             }
         }
 
         StackPane root = new StackPane();
         root.getChildren().add(scrabbleBoard);
-        primaryStage.setScene(new Scene(root, 720, 720));
+        primaryStage.setScene(new Scene(root, 840, 840));
         primaryStage.show();
     }
 
