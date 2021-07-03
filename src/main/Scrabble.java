@@ -176,11 +176,16 @@ public class Scrabble {
     }
 
     public void setDoubleWordScores() {
-        int row = 1, col = 1;
+        int row, col;
 
-        for(; row < BOARD_SIZE; row++) {
-            for(; col < BOARD_SIZE; col++) {
-                if(row == col) board[row][col] = '2';
+        for(row = 1; row < 5; row++) {
+            for(col = 1; col < 5; col++) {
+                if(row == col) {
+                    board[row][col] = '2';
+                    board[BOARD_SIZE - row - 1][col] = '2';
+                    board[row][BOARD_SIZE - col - 1] = '2';
+                    board[BOARD_SIZE - row - 1][BOARD_SIZE - col - 1] = '2';
+                }
             }
         }
     }
